@@ -5,14 +5,27 @@ describe('Todo List', function(){
     expect(todo.getTasks()).toEqual([]);
   });
 
-  it('Should add a Task', function(){
-    var todo = new Todo();
-    var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
+  describe('Add new Task to Todo', function(){
 
-    todo.add(task);
+    it('Should add a Task', function(){
+      var todo = new Todo();
+      var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
 
-    expect(todo.getTasksSize()).toEqual(1);
-    expect(todo.getTasks()).toContain(task);
+      todo.add(task);
+
+      expect(todo.getTasksSize()).toEqual(1);
+      expect(todo.getTasks()).toContain(task);
+    });
+
+  });
+
+  describe('Find a task', function() {
+  });
+
+  describe('Destroy a Task', function() {
+  });
+
+  describe('List all tasks', function(){
   });
 
 });
