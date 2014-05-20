@@ -1,15 +1,16 @@
 function Todo(){
-  this.tasks = [];
-
-  this.getTasks = function(){
-    return this.tasks;
-  }
+  var tasks = [];
 
   this.add = function(task){
-    this.tasks.push(task);
+    tasks.push(task);
   }
 
-  this.getTasksSize = function() {
-    return this.tasks.length;
+  this.getTasks = function(){
+    return tasks;
   }
+
+  this.getTasksSize = function(){
+    return tasks.length;
+  }
+
 }
