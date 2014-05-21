@@ -10,7 +10,6 @@ describe('Todo List', function(){
   });
 
   describe('Add new Task to Todo', function(){
-
     it('Should add a Task', function(){
       var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
 
@@ -19,11 +18,9 @@ describe('Todo List', function(){
       expect(todo.getTasksSize()).toEqual(1);
       expect(todo.getTasks()).toContain(task);
     });
-
   });
 
   describe('List all tasks', function(){
-
     it('Should list all tasks', function(){
       var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
       var task_two = { title: 'Task', description: 'This is a Task', created_at: new Date() };
@@ -33,16 +30,43 @@ describe('Todo List', function(){
 
       expect(todo.getTasks()).toContain(task, task_two)
     });
-
   });
 
-  xdescribe('Find a task', function() {
+  describe('Find a task', function() {
 
+    it('Should find a single task by index', function(){
+      var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
+      todo.add(task);
+
+      var result = todo.getTask(0);
+      expect(result).toBe(task);
+    });
+
+
+    it('Should find task by title or description', function(){
+      var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
+      todo.add(task);
+
+      var result = todo.findTask('Task');
+      expect(result).toBe(task);
+
+      var result = todo.findTask('This is a Task');
+      expect(result).toBe(task);
+    });
+
+    it('Should return not found', function(){
+      var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
+      todo.add(task);
+
+      var result = todo.findTask('titlezzzz');
+
+      expect(result).toEqual('not found');
+    })
   });
 
-  xdescribe('Destroy a Task', function() {
+  describe('Destroy a Task', function() {
+    var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
+    todo.add(task);
   });
-
-
 
 });
