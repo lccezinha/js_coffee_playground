@@ -65,8 +65,19 @@ describe('Todo List', function(){
   });
 
   describe('Destroy a Task', function() {
-    var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
-    todo.add(task);
+    it('Return message when task does not exists', function(){
+      expect(todo.destroy('Task')).toEqual('not found');
+    });
+    it('Should destroy', function(){
+      var task = { title: 'Task', description: 'This is a Task', created_at: new Date() };
+      todo.add(task);
+
+      todo.destroy('Task');
+
+      expect(todo.getTasks()).not.toContain(task)
+      expect(todo.getTasksSize()).toEqual(0);
+    })
+
   });
 
 });
