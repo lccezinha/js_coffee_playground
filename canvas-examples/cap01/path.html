@@ -1,0 +1,29 @@
+<<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 01 - Path</title>
+  </head>
+  <body>
+    <canvas id="my_canvas" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('my_canvas');
+      var context = canvas.getContext('2d');
+
+      // inicializa um path para armazenar comandos e depois criar o desenho
+      context.beginPath();
+
+      context.moveTo(75, 250); // ponto inicial
+      context.lineTo(150, 50);
+      context.lineTo(225, 250);
+      context.lineTo(50, 120);
+      context.lineTo(250, 120);
+      context.lineTo(75, 250);
+
+      context.lineWidth = 2;
+      context.strokeStyle = 'red';
+
+      // Traça as linhas posteriomente criadas.
+      context.stroke();
+    </script>
+  </body>
+</html>

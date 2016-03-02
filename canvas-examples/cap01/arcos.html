@@ -1,0 +1,56 @@
+<<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 01 - Arcos</title>
+  </head>
+  <body>
+    <canvas id="my_canvas" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('my_canvas');
+      var context = canvas.getContext('2d');
+
+      var pos_x = 50;
+      var pos_y = 50;
+      var raio  = 40;
+      var start_graus = 90 * Math.PI / 180;
+      var end_graus   = 270 * Math.PI / 180;
+      var position = false;
+
+      context.beginPath();
+
+      context.fillStyle = 'gray'
+      context.strokeStyle = 'black';
+      context.lineWidth = '3';
+
+      context.arc(pos_x, pos_y, raio, start_graus, end_graus, position);
+
+      context.stroke();
+
+      //////////////////////////////////////////
+
+      context.beginPath();
+
+      context.fillStyle = 'gray'
+      context.strokeStyle = 'black';
+      context.lineWidth = '3';
+
+      context.arc(pos_x + 30, pos_y + 30, raio  + 30, start_graus, end_graus, true);
+
+      context.stroke();
+
+      ////////////////////////////////
+
+      context.beginPath();
+
+      context.fillStyle = 'gray'
+      context.strokeStyle = 'black';
+      context.lineWidth = '3';
+
+      context.arc(pos_x + 150, pos_y + 100, raio  + 100, start_graus, end_graus, true);
+
+      context.fill();
+      context.stroke();
+
+    </script>
+  </body>
+</html>

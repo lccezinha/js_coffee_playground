@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 01 - Images</title>
+  </head>
+  <body>
+    <canvas id="my_canvas" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('my_canvas');
+      var context = canvas.getContext('2d');
+
+      // var image = new Image();
+      // image.src = '../assets/ovni.png';
+      // image.onload = function() {
+      //   var initialPosition = 20;
+      //   var positionY = 20;
+      //   var width = 64;
+      //   var height = 32;
+
+      //   for(var i = 1; i <= 5; i++) {
+      //     context.drawImage(image, initialPosition, positionY, width, height);
+      //     initialPosition += 70;
+      //   }
+      // }
+
+      //////////////////////
+
+      var image = new Image();
+      image.src = '../assets/explosao.png';
+      image.onload = function() {
+        context.drawImage(
+          image,
+          80, 10, 60, 65, // Área de recorte
+          20, 20, 60, 65  // Desenho do Canvas
+        )
+      }
+    </script>
+  </body>
+</html>
