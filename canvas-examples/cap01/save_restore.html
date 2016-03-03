@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 01 - Save e Restore</title>
+  </head>
+  <body>
+    <canvas id="my_canvas" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+       var canvas = document.getElementById("my_canvas");
+       var context = canvas.getContext('2d');
+
+       // Quadro Verde
+       context.fillStyle = 'green';
+       context.fillRect(50, 50, 25, 25);
+       context.save();
+
+       // Quadro Roxo
+       context.fillStyle = 'purple';
+       context.fillRect(100, 50, 25, 25);
+       context.restore(); // volta a ser verde
+
+       context.fillRect(150, 50, 25, 25);
+    </script>
+  </body>
+</html>

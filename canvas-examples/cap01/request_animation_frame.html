@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 01 - Request Animation Frame</title>
+  </head>
+  <body>
+    <canvas id="my_canvas" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById("my_canvas");
+      var context = canvas.getContext('2d');
+
+      var x = 20;
+      var y = 100;
+      var r = 15;
+      var previous = new Date().getTime();
+
+      requestAnimationFrame(moveBall);
+
+      function moveBall() {
+        var now = new Date().getTime();
+        var elapsed = now - previous;
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Desenhar bola
+        context.beginPath();
+        context.arc(x, y, r, 0, Math.PI * 2);
+        context.fill();
+
+        var v = 100;
+        x += v * elapsed / 1000;
+
+        previous = now;
+
+        requestAnimationFrame(moveBall);
+      }
+    </script>
+  </body>
+</html>
