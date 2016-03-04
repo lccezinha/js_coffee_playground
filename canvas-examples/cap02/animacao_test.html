@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 02 - Animação Teste: Loop de animação</title>
+    <script type="text/javascript" src="animation.js"></script>
+    <script type="text/javascript" src="ball.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_animacao" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas_animacao');
+      var context = canvas.getContext('2d');
+
+      // Criando uma sprint
+      var ball_1 = new Ball(context);
+      ball_1.x = 100;
+      ball_1.y = 200;
+      ball_1.speedX = 20;
+      ball_1.speedY = -10;
+      ball_1.color = 'red';
+      ball_1.radius = 20;
+
+      var ball_2 = new Ball(context);
+      ball_2.x = 200;
+      ball_2.y = 100;
+      ball_2.speedX = -10;
+      ball_2.speedY = 20;
+      ball_2.color = 'blue';
+      ball_2.radius = 40;
+
+      // Criando loop de animação
+      var animation = new Animation(context);
+      animation.newSprint(ball_1);
+      animation.newSprint(ball_2);
+
+      animation.start();
+    </script>
+  </body>
+</html>
