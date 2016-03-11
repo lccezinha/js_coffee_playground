@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 03 - Primeiro keydown</title>
+    <script type="text/javascript" src="../cap02/animation.js"></script>
+    <script type="text/javascript" src="../cap02/ball.js"></script>
+    <script type="text/javascript" src="keyboard.js"></script>
+    <script type="text/javascript" src="hero.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_keydown" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas_keydown');
+      var context = canvas.getContext('2d');
+
+      var keyboard = new Keyboard(document);
+      var animation = new Animation(context);
+
+      var hero = new Hero(context, keyboard, animation);
+      hero.positionX = 0;
+      hero.positionY = 100;
+      animation.newSprite(hero);
+
+      keyboard.shot(SPACE, function() {
+        hero.shot();
+      });
+
+      animation.start();
+    </script>
+  </body>
+</html>

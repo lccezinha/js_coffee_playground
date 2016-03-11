@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 03 - Teste movimentos com classes JS</title>
+    <script type="text/javascript" src="keyboard.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_keydown" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas_keydown');
+      var context = canvas.getContext('2d');
+
+      var positionX = 0;
+      drawPlayer();
+
+      var keyboard = new Keyboard(document);
+
+      requestAnimationFrame(animation);
+
+      function animation() {
+        if (keyboard.press(LEFT)) {
+          positionX -= 10;
+        } else if (keyboard.press(RIGHT)) {
+          positionX += 10;
+        }
+
+        drawPlayer();
+        requestAnimationFrame(animation);
+      }
+
+      function drawPlayer() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillRect(positionX, 100, 20, 50);
+      }
+    </script>
+  </body>
+</html>

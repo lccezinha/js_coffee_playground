@@ -5,7 +5,7 @@ function Animation(context) {
 }
 
 Animation.prototype = {
-  newSprint: function(sprite) {
+  newSprite: function(sprite) {
     this.sprites.push(sprite);
   },
 

@@ -12,13 +12,13 @@ Ball.prototype = {
   update: function() {
     var ctx = this.context;
 
-    if(this.x < this.radius || this.x > ctx.canvas.width - this.radius) {
-      this.speedX *= -1;
-    }
+    // if(this.x < this.radius || this.x > ctx.canvas.width - this.radius) {
+    //   this.speedX *= -1;
+    // }
 
-    if(this.y < this.radius || this.y > ctx.canvas.height - this.radius) {
-      this.speedY *= -1;
-    }
+    // if(this.y < this.radius || this.y > ctx.canvas.height - this.radius) {
+    //   this.speedY *= -1;
+    // }
 
     this.x += this.speedX;
     this.y += this.speedY;
