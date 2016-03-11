@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 03 - Teste com Keydown</title>
+  </head>
+  <body>
+    <canvas id="canvas_keydown" height="1000" width="1000"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas_keydown');
+      var context = canvas.getContext('2d');
+
+      var positionX = 0;
+      var positionY = 100;
+      drawPlayer();
+
+      var keydownListener = function(event) {
+        var turnLeft  = 37;
+        var turnRight = 39;
+
+        if (event.keyCode == turnLeft) {
+          positionX -= 10;
+          drawPlayer();
+        } else if (event.keyCode == turnRight) {
+          positionX += 10;
+          drawPlayer();
+        } else if (event.keyCode == 38) {
+          positionY += 10;
+          drawPlayer();
+        }
+      }
+
+      document.addEventListener('keydown', keydownListener);
+
+      function drawPlayer() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillRect(positionX, positionY, 20, 50);
+      }
+    </script>
+  </body>
+</html>
