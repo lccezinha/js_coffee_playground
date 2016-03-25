@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 04 - Movimento Personagem</title>
+    <script type="text/javascript" src="spritesheet.js"></script>
+    <script type="text/javascript" src="animation.js"></script>
+    <script type="text/javascript" src="keyboard.js"></script>
+    <script type="text/javascript" src="sonic.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_move" height="500" width="500"></canvas>
+    <script type="text/javascript">
+      var context = document.getElementById('canvas_move').getContext('2d');
+
+      var keyboard = new Keyboard(document);
+      var animation = new Animation(context);
+
+      var imgSonic = new Image();
+      imgSonic.src = '../assets/spritesheet.png';
+
+      var sonic = new Sonic(context, keyboard, imgSonic);
+      sonic.x = 150;
+      sonic.y = 200;
+
+      animation.newSprite(sonic);
+
+      imgSonic.onload = function() {
+        animation.start();
+      }
+    </script>
+  </body>
+</html>
