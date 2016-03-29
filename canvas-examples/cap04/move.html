@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 04 - Movimento Teste</title>
+    <script type="text/javascript" src="spritesheet.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_move" height="500" width="500"></canvas>
+    <script type="text/javascript">
+      var context = document.getElementById('canvas_move').getContext('2d');
+
+      imgSonic = new Image();
+      imgSonic.src = '../assets/spritesheet.png';
+
+      var sheet = new Spritesheet(context, imgSonic, 3, 8);
+      sheet.interval = 60;
+      sheet.line = 1;
+      imgSonic.onload = gameLoop;
+
+      function gameLoop() {
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        sheet.nextFrame();
+        sheet.draw(100, 100);
+        requestAnimationFrame(gameLoop);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 04 - Clipping</title>
+  </head>
+  <body>
+    <canvas id="canvas_clipping" height="500" width="500"></canvas>
+    <script type="text/javascript">
+      var imgSonic = new Image();
+      imgSonic.src = '../assets/spritesheet.png';
+      imgSonic.onload = function() {
+        var lines = 3;
+        var columns = 8;
+
+        var width = imgSonic.width / columns;
+        var height = imgSonic.height / lines;
+
+        var whichLine = 2;
+        var whichColumn = 7;
+
+        var x = width * whichColumn;
+        var y = height * whichLine;
+
+        var context = document.getElementById('canvas_clipping').getContext('2d');
+
+        context.drawImage(
+          imgSonic,
+          x,
+          y,
+          width,
+          height,
+          100,
+          100,
+          width,
+          height
+        );
+      }
+    </script>
+  </body>
+</html>
