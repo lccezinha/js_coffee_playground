@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 05 - Colisões</title>
+    <script type="text/javascript" src="colider.js"></script>
+    <script type="text/javascript" src="ball.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_collision" height="500" width="500"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas_collision');
+      var context = canvas.getContext('2d');
+
+      var ball_1 = new Ball(context);
+      ball_1.x      = 200;
+      ball_1.y      = 200;
+      ball_1.speedX = 10;
+      ball_1.speedY = -5;
+      ball_1.color  = 'blue';
+      ball_1.radius = 20;
+
+      var ball_2 = new Ball(context);
+      ball_2.x      = 300;
+      ball_2.y      = 300;
+      ball_2.speedX = -5;
+      ball_2.speedY = 10;
+      ball_2.color  = 'red';
+      ball_2.radius = 10;
+
+      var collision = new Collision();
+      collision.newSprite(ball_1);
+      collision.newSprite(ball_2);
+
+      requestAnimationFrame(animation);
+
+      function animation() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        ball_1.update();
+        ball_2.update();
+
+        ball_1.draw();
+        ball_2.draw();
+
+        collision.process();
+
+        requestAnimationFrame(animation);
+      }
+    </script>
+  </body>
+</html>
