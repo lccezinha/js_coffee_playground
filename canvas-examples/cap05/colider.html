@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas - Cap 05 - Colisões</title>
+    <script type="text/javascript" src="colider.js"></script>
+    <script type="text/javascript" src="ball.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas_collision" height="500" width="500"></canvas>
+    <script type="text/javascript">
+      var canvas = document.getElementById('canvas_collision');
+      var context = canvas.getContext('2d');
+
+      balls = [];
+
+      var ball_1 = new Ball(context);
+      ball_1.x      = 200;
+      ball_1.y      = 200;
+      ball_1.speedX = 20;
+      ball_1.speedY = -10;
+      ball_1.color  = 'blue';
+      ball_1.radius = 20;
+
+      balls.push(ball_1);
+
+      var ball_2 = new Ball(context);
+      ball_2.x      = 300;
+      ball_2.y      = 300;
+      ball_2.speedX = -5;
+      ball_2.speedY = 10;
+      ball_2.color  = 'red';
+      ball_2.radius = 10;
+
+      balls.push(ball_2);
+
+      var ball_3 = new Ball(context);
+      ball_3.x      = 100;
+      ball_3.y      = 50;
+      ball_3.speedX = 10;
+      ball_3.speedY = -10;
+      ball_3.color  = 'black';
+      ball_3.radius = 20;
+
+      balls.push(ball_3);
+
+      var collision = new Collision();
+      collision.newSprite(ball_1);
+      collision.newSprite(ball_2);
+      collision.newSprite(ball_3);
+
+      collision.whenCollision = function(s1, s2) {
+      }
+
+      requestAnimationFrame(animation);
+
+      function animation() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        balls.forEach(function(ball) {
+          ball.update();
+          ball.draw();
+        });
+
+        collision.process();
+
+        requestAnimationFrame(animation);
+      }
+    </script>
+  </body>
+</html>
