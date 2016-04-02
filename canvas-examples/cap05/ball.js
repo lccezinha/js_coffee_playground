@@ -49,6 +49,5 @@ Ball.prototype = {
   },
 
   collisionWith: function(sprite) {
-    alert('PA!');
   }
 }

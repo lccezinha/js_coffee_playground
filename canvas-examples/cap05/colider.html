@@ -31,6 +31,10 @@
       collision.newSprite(ball_1);
       collision.newSprite(ball_2);
 
+      collision.whenCollision = function(s1, s2) {
+        alert('PEI');
+      }
+
       requestAnimationFrame(animation);
 
       function animation() {
