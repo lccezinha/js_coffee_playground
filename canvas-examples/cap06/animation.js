@@ -6,6 +6,7 @@ function Animation(context) {
 Animation.prototype = {
    newSprite: function(sprite) {
       this.sprites.push(sprite);
+      console.log(this.sprites);
    },
    start: function() {
       this.online = true;

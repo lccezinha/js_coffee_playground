@@ -1,6 +1,8 @@
-var LEFT = 37;
-var RIGHT = 39;
 var SPACE = 32;
+var LEFT = 37;
+var UP = 38;
+var RIGHT = 39;
+var DOWN = 40;
 
 function Keyboard(element) {
   this.element = element;
