@@ -12,14 +12,6 @@ function Keyboard(element) {
 
   var keyboard = this;
 
-  // element.addEventListener('keydown', function(event) {
-  //   keyboard.pressed[event.keyCode] = true;
-  // });
-
-  // element.addEventListener('keyup', function(event) {
-  //   keyboard.pressed[event.keyCode] = false;
-  // });
-
   element.addEventListener('keydown', function(event) {
     var key = event.keyCode;
     keyboard.pressed[key] = true;

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cap06 - Teste fundo animação</title>
+  <script type="text/javascript" src="animation.js"></script>
+  <script type="text/javascript" src="background.js"></script>
+</head>
+<body>
+  <canvas id="canvas_background" height="500" width="500"></canvas>
+  <script type="text/javascript">
+    var imageSpace = new Image();
+    imageSpace.src = '../assets/fundo-espaco.png';
+
+    var imageStars = new Image();
+    imageStars.src = '../assets/fundo-estrelas.png';
+
+    var imageClouds = new Image();
+    imageClouds.src = '../assets/fundo-nuvens.png';
+
+    var imagesLoaded = 0;
+    var maxImages = 3;
+
+    imageSpace.onload = loadingImage();
+    imageStars.onload = loadingImage();
+    imageClouds.onload = loadingImage();
+
+    function loadingImage() {
+      imagesLoaded++;
+      if (imagesLoaded == maxImages) start();
+    }
+
+    function start() {
+      var canvas = document.getElementById('canvas_background');
+      var context = canvas.getContext('2d');
+
+      var backgroundSpace = new Background(context, imageSpace);
+      var backgroundStars = new Background(context, imageStars);
+      var backgroundClouds = new Background(context, imageClouds);
+
+      backgroundSpace.speed = 4;
+      backgroundStars.speed = 1;
+      backgroundClouds.speed = -10;
+
+      var animation = new Animation(context);
+      animation.newSprite(backgroundSpace);
+      animation.newSprite(backgroundStars);
+      animation.newSprite(backgroundClouds);
+
+      animation.start();
+    }
+  </script>
+</body>
+  <!-- <img src="../assets/fundo-nuvens.png"> -->
+</html>
