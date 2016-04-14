@@ -32,7 +32,6 @@ function Keyboard(element) {
 
 Keyboard.prototype = {
   press: function(key) {
-    console.log(key);
     return this.pressed[key];
   },
 

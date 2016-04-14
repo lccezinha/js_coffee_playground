@@ -24,5 +24,10 @@ Plane.prototype = {
 
   draw: function() {
     this.context.drawImage(this.image, this.x, this.y, this.image.width, this.image.height);
+  },
+
+  shot: function() {
+    var shot = new Shot(this.context, this);
+    this.animation.newSprite(shot);
   }
 };
