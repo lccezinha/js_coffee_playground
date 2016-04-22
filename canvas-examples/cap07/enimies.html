@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cap 07 - Teste Inimigos</title>
+  <script type="text/javascript" src="animation.js"></script>
+  <script type="text/javascript" src="keyboard.js"></script>
+  <script type="text/javascript" src="plane.js"></script>
+  <script type="text/javascript" src="shot.js"></script>
+  <script type="text/javascript" src="colider.js"></script>
+  <script type="text/javascript" src="ovni.js"></script>
+</head>
+<body>
+  <canvas id="canvas_inimigos" width="600" height="600"></canvas>
+  <script type="text/javascript">
+    var imagesLoaded = 0;
+    var maxImages = 2;
+
+    var planeImage = new Image();
+    planeImage.src = "../assets/nave.png";
+
+    var ovniImage = new Image();
+    ovniImage.src = "../assets/ovni.png";
+
+
+    var canvas = document.getElementById("canvas_inimigos");
+    var context = canvas.getContext('2d');
+
+    var keyboard = new Keyboard(document);
+    var animation = new Animation(context);
+    var colider = new Collision();
+
+    var plane = new Plane(context, keyboard, planeImage);
+    animation.newSprite(plane);
+
+    keyboard.shot(SPACE, function() {
+      plane.shot();
+    });
+
+    ovniImage.onload = loadingImages();
+    planeImage.onload = loadingImages();
+
+    function loadingImages() {
+      imagesLoaded++;
+      if (imagesLoaded == 2) start();
+    }
+
+    function newOvni() {
+      var ovni = new Ovni(context, ovniImage);
+
+      ovni.speed = Math.floor(5 + Math.random() * (20 - 5 + 1));
+
+      ovni.x = Math.floor(Math.random() * (canvas.width - ovniImage.width + 1));
+      ovni.y = -ovniImage.height;
+
+      animation.newSprite(ovni);
+      colider.newSprite(ovni);
+    }
+
+    function start() {
+      plane.x = canvas.width / 2 - planeImage.width / 2;
+      plane.y = canvas.height - planeImage.height;
+      plane.speed = 5;
+      animation.start();
+
+      setInterval(newOvni, 1000);
+    }
+  </script>
+</body>
+</html>
