@@ -18,7 +18,7 @@ Animation.prototype = {
    nextFrame: function() {
       if ( ! this.online ) return;
 
-      this.clearScreen();
+      // this.clearScreen();
 
       for (var i in this.sprites)
          this.sprites[i].update();
@@ -31,8 +31,9 @@ Animation.prototype = {
          animation.nextFrame();
       });
    },
-   clearScreen: function() {
-      var ctx = this.context;
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-   }
+
+   // clearScreen: function() {
+   //    var ctx = this.context;
+   //    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+   // }
 }
