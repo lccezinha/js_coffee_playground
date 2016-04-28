@@ -2,6 +2,7 @@ function Animation(context) {
    this.context = context;
    this.sprites = [];
    this.online = false;
+   this.processors = [];
 }
 Animation.prototype = {
    newSprite: function(sprite) {
@@ -18,22 +19,22 @@ Animation.prototype = {
    nextFrame: function() {
       if ( ! this.online ) return;
 
-      // this.clearScreen();
-
-      for (var i in this.sprites)
+      for (var i in this.sprites) {
          this.sprites[i].update();
-
-      for (var i in this.sprites)
          this.sprites[i].draw();
+      }
+
+      for (var i in this.processors) {
+         this.processors[i].process();
+      }
 
       var animation = this;
       requestAnimationFrame(function() {
          animation.nextFrame();
       });
    },
-
-   // clearScreen: function() {
-   //    var ctx = this.context;
-   //    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-   // }
+   newProcessor: function(processor) {
+      this.processors.push(processor);
+      processor.animation = this
+   }
 }
