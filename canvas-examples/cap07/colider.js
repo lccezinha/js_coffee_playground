@@ -1,12 +1,17 @@
 function Collision() {
   this.sprites = [];
   this.whenCollision = null;
+  this.spritesToDestroy = [];
 }
 
 Collision.prototype = {
   newSprite: function(sprite) {
     this.sprites.push(sprite);
     sprite.colisor = this;
+  },
+
+  newSpriteToDestroy: function(sprite) {
+    this.spritesToDestroy.push(sprite);
   },
 
   process: function() {
@@ -30,6 +35,20 @@ Collision.prototype = {
         }
       }
     }
+
+    this.destroySprites();
+  },
+
+  destroySprites: function() {
+    var newSprites = [];
+
+    for (var i in this.sprites) {
+      if (this.spritesToDestroy.indexOf(this.sprites[i]) == -1)
+        newSprites.push(this.sprites[i]);
+    }
+
+    this.spritesToDestroy = [];
+    this.sprites = newSprites;
   },
 
   verifyCollision: function(spriteA, spriteB) {
