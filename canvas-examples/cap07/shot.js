@@ -21,5 +21,13 @@ Shot.prototype = {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.restore();
+  },
+
+  rectsCollision: function() {
+    return [{ x: this.x, y: this.y, width: this.width, height: this.height }];
+  },
+
+  collisionWith: function() {
+
   }
 }

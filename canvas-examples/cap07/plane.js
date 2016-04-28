@@ -29,5 +29,18 @@ Plane.prototype = {
   shot: function() {
     var shot = new Shot(this.context, this);
     this.animation.newSprite(shot);
+    this.colider.newSprite(shot);
+  },
+
+  rectsCollision: function() {
+    return  [
+      { x: this.x + 2, y: this.y + 19, width: 9, height: 13 },
+      { x: this.x + 13, y: this.y + 3, width: 10, height: 33 },
+      { x: this.x + 25, y: this.y + 19, width: 9, height: 13 }
+    ];
+  },
+
+  collisionWith: function() {
+
   }
 };

@@ -5,7 +5,8 @@ function Collision() {
 
 Collision.prototype = {
   newSprite: function(sprite) {
-    this.sprites.push(sprite)
+    this.sprites.push(sprite);
+    sprite.colisor = this;
   },
 
   process: function() {
