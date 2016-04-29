@@ -33,14 +33,17 @@ Plane.prototype = {
   },
 
   rectsCollision: function() {
-    return  [
+    return [
       { x: this.x + 2, y: this.y + 19, width: 9, height: 13 },
       { x: this.x + 13, y: this.y + 3, width: 10, height: 33 },
       { x: this.x + 25, y: this.y + 19, width: 9, height: 13 }
     ];
   },
 
-  collisionWith: function() {
-
+  collisionWith: function(otherSprite) {
+    if (otherSprite instanceof(Plane)) {
+      this.animation.off();
+      alert('GAME OVER!');
+    }
   }
 };

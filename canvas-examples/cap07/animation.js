@@ -13,10 +13,11 @@ Animation.prototype = {
    },
 
    newSpriteToDestroy: function(sprite) {
+      console.log(sprite);
       this.spritesToDestroy.push(sprite);
    },
 
-   destroyProcess: function(processor) {
+   newProcessorToDestroy: function(processor) {
       this.processorsToDestroy.push(processor);
    },
 
@@ -30,14 +31,14 @@ Animation.prototype = {
    nextFrame: function() {
       if ( ! this.online ) return;
 
-      for (var i in this.sprites) {
+      for (var i in this.sprites)
          this.sprites[i].update();
-         this.sprites[i].draw();
-      }
 
-      for (var i in this.processors) {
+      for (var i in this.sprites)
+        this.sprites[i].draw();
+
+      for (var i in this.processors)
          this.processors[i].process();
-      }
 
       this.destroySprites();
 
@@ -62,10 +63,10 @@ Animation.prototype = {
        newProcessors.push(this.processors[i]);
     }
 
-    console.log(spritesToDestroy)
+    console.log(this.spritesToDestroy)
     this.spritesToDestroy = [];
     this.sprites = newSprites;
-    console.log(spritesToDestroy)
+    console.log(this.spritesToDestroy)
 
     this.processorsToDestroy = [];
     this.processors = newProcessors;

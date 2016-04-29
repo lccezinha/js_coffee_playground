@@ -7,7 +7,7 @@ function Collision() {
 Collision.prototype = {
   newSprite: function(sprite) {
     this.sprites.push(sprite);
-    sprite.colisor = this;
+    sprite.colider = this;
   },
 
   newSpriteToDestroy: function(sprite) {
@@ -52,6 +52,7 @@ Collision.prototype = {
   },
 
   verifyCollision: function(spriteA, spriteB) {
+    // debugger;
     var rectsA = spriteA.rectsCollision();
     var rectsB = spriteB.rectsCollision();
 

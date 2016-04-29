@@ -13,6 +13,11 @@ function Shot(context, plane) {
 Shot.prototype = {
   update: function() {
     this.y -= this.speed;
+
+    if (this.y < -this.height) {
+      this.animation.newSpriteToDestroy(this);
+      this.colider.newSpriteToDestroy(this);
+    }
   },
 
   draw: function() {
@@ -25,9 +30,5 @@ Shot.prototype = {
 
   rectsCollision: function() {
     return [{ x: this.x, y: this.y, width: this.width, height: this.height }];
-  },
-
-  collisionWith: function() {
-
   }
 }

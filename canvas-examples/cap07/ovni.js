@@ -8,13 +8,18 @@ function Ovni(context, image) {
 
 Ovni.prototype = {
   update: function() {
-    var ctx = this.context;
-    var img = this.image;
-    ctx.drawImage(img, this.x, this.y, img.width, img.height);
+    this.y += this.speed;
+
+    if (this.y > this.context.canvas.height) {
+      this.animation.newSpriteToDestroy(this);
+      this.colider.newSpriteToDestroy(this);
+    }
   },
 
   draw: function() {
-    this.y += this.speed;
+    var ctx = this.context;
+    var img = this.image;
+    ctx.drawImage(img, this.x, this.y, img.width, img.height);
   },
 
   rectsCollision: function() {
@@ -25,8 +30,13 @@ Ovni.prototype = {
     ];
   },
 
-  collisionWith: function() {
-
+  collisionWith: function(otherSprite) {
+    if (otherSprite instanceof Shot ) {
+      this.animation.newSpriteToDestroy(this);
+      this.colider.newSpriteToDestroy(this);
+      this.animation.newSpriteToDestroy(otherSprite);
+      this.colider.newSpriteToDestroy(otherSprite);
+    }
   }
 
 }
