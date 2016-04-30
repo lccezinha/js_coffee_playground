@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cap 07 - Teste Inimigos</title>
+  <script type="text/javascript" src="animation.js"></script>
+  <script type="text/javascript" src="keyboard.js"></script>
+  <script type="text/javascript" src="plane.js"></script>
+  <script type="text/javascript" src="shot.js"></script>
+  <script type="text/javascript" src="colider.js"></script>
+  <script type="text/javascript" src="ovni.js"></script>
+  <script type="text/javascript" src="background.js"></script>
+</head>
+<body>
+  <canvas id="canvas_inimigos" width="500" height="500"></canvas>
+  <script type="text/javascript">
+    var imagesLoaded = 0;
+    var maxImages = 5;
+
+    var planeImage = new Image();
+    planeImage.src = "../assets/nave.png";
+
+    var ovniImage = new Image();
+    ovniImage.src = "../assets/ovni.png";
+
+    var imageSpace = new Image();
+    imageSpace.src = '../assets/fundo-espaco.png';
+
+    var imageStars = new Image();
+    imageStars.src = '../assets/fundo-estrelas.png';
+
+    var imageClouds = new Image();
+    imageClouds.src = '../assets/fundo-nuvens.png';
+
+    var canvas = document.getElementById("canvas_inimigos");
+    var context = canvas.getContext('2d');
+    var keyboard = new Keyboard(document);
+    var animation = new Animation(context);
+
+    var backgroundSpace = new Background(context, imageSpace);
+    backgroundSpace.speed = 1;
+    animation.newSprite(backgroundSpace);
+
+    var backgroundStars = new Background(context, imageStars);
+    backgroundStars.speed = 2;
+    animation.newSprite(backgroundStars);
+
+    var backgroundClouds = new Background(context, imageClouds);
+    backgroundClouds.speed = 3;
+    animation.newSprite(backgroundClouds);
+
+    var plane = new Plane(context, keyboard, planeImage);
+    animation.newSprite(plane);
+
+    var colider = new Collision();
+    colider.newSprite(plane);
+    animation.newProcessor(colider);
+
+    keyboard.shot(SPACE, function() {
+      plane.shot();
+    });
+
+    ovniImage.onload   = loadingImages();
+    planeImage.onload  = loadingImages();
+    imageSpace.onload  = loadingImages();
+    imageClouds.onload = loadingImages();
+    imageStars.onload  = loadingImages()
+
+    function loadingImages() {
+      imagesLoaded++;
+      if (imagesLoaded == maxImages) start();
+    }
+
+    function newOvni() {
+      var ovni = new Ovni(context, ovniImage);
+
+      ovni.speed = Math.floor(3 + Math.random() * (5 - 2 + 1));
+
+      ovni.x = Math.floor(Math.random() * (canvas.width - ovniImage.width + 1));
+      ovni.y = -ovniImage.height;
+
+      animation.newSprite(ovni);
+      colider.newSprite(ovni);
+      animation.newProcessor(colider);
+    }
+
+    function start() {
+      plane.x = canvas.width / 2 - planeImage.width / 2;
+      plane.y = canvas.height - planeImage.height;
+      plane.speed = 5;
+      animation.start();
+
+      setInterval(newOvni, 1000);
+    }
+  </script>
+</body>
+</html>
