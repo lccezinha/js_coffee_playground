@@ -10,10 +10,6 @@ Collision.prototype = {
     sprite.colider = this;
   },
 
-  newSpriteToDestroy: function(sprite) {
-    this.spritesToDestroy.push(sprite);
-  },
-
   process: function() {
     var alreadyTested = new Object();
 
@@ -39,20 +35,7 @@ Collision.prototype = {
     this.destroySprites();
   },
 
-  destroySprites: function() {
-    var newSprites = [];
-
-    for (var i in this.sprites) {
-      if (this.spritesToDestroy.indexOf(this.sprites[i]) == -1)
-        newSprites.push(this.sprites[i]);
-    }
-
-    this.spritesToDestroy = [];
-    this.sprites = newSprites;
-  },
-
   verifyCollision: function(spriteA, spriteB) {
-    // debugger;
     var rectsA = spriteA.rectsCollision();
     var rectsB = spriteB.rectsCollision();
 
@@ -90,5 +73,21 @@ Collision.prototype = {
     }
 
     return str;
+  },
+
+  newSpriteToDestroy: function(sprite) {
+    this.spritesToDestroy.push(sprite);
+  },
+
+  destroySprites: function() {
+    var newSprites = [];
+
+    for (var i in this.sprites) {
+      if (this.spritesToDestroy.indexOf(this.sprites[i]) == -1)
+        newSprites.push(this.sprites[i]);
+    }
+
+    this.spritesToDestroy = [];
+    this.sprites = newSprites;
   }
 }

@@ -7,47 +7,53 @@ function Animation(context) {
    this.processorsToDestroy = [];
 }
 Animation.prototype = {
-   newSprite: function(sprite) {
-      this.sprites.push(sprite);
-      sprite.animation = this;
-   },
+  newSprite: function(sprite) {
+    this.sprites.push(sprite);
+    sprite.animation = this;
+  },
 
-   newSpriteToDestroy: function(sprite) {
-      console.log(sprite);
-      this.spritesToDestroy.push(sprite);
-   },
+  start: function() {
+    this.online = true;
+    this.nextFrame();
+  },
 
-   newProcessorToDestroy: function(processor) {
-      this.processorsToDestroy.push(processor);
-   },
+  off: function() {
+    this.online = false;
+  },
 
-   start: function() {
-      this.online = true;
-      this.nextFrame();
-   },
-   off: function() {
-      this.online = false;
-   },
-   nextFrame: function() {
-      if ( ! this.online ) return;
+  nextFrame: function() {
+    if ( ! this.online ) return;
 
-      for (var i in this.sprites)
-         this.sprites[i].update();
+    for (var i in this.sprites)
+       this.sprites[i].update();
 
-      for (var i in this.sprites)
-        this.sprites[i].draw();
+    for (var i in this.sprites)
+      this.sprites[i].draw();
 
-      for (var i in this.processors)
-         this.processors[i].process();
+    for (var i in this.processors)
+       this.processors[i].process();
 
-      this.destroySprites();
+    this.destroySprites();
 
-      var animation = this;
-      requestAnimationFrame(function() {
-         animation.nextFrame();
-      });
+    var animation = this;
+    requestAnimationFrame(function() {
+       animation.nextFrame();
+    });
 
-   },
+  },
+
+  newProcessor: function(processor) {
+    this.processors.push(processor);
+    processor.animation = this;
+  },
+
+  newSpriteToDestroy: function(sprite) {
+    this.spritesToDestroy.push(sprite);
+  },
+
+  newProcessorToDestroy: function(processor) {
+    this.processorsToDestroy.push(processor);
+  },
 
   destroySprites: function() {
     var newSprites = [];
@@ -63,17 +69,10 @@ Animation.prototype = {
        newProcessors.push(this.processors[i]);
     }
 
-    console.log(this.spritesToDestroy)
     this.spritesToDestroy = [];
-    this.sprites = newSprites;
-    console.log(this.spritesToDestroy)
-
     this.processorsToDestroy = [];
+
+    this.sprites = newSprites;
     this.processors = newProcessors;
   },
-
-   newProcessor: function(processor) {
-      this.processors.push(processor);
-      processor.animation = this
-   }
 }

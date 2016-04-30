@@ -30,5 +30,9 @@ Shot.prototype = {
 
   rectsCollision: function() {
     return [{ x: this.x, y: this.y, width: this.width, height: this.height }];
+  },
+
+  collisionWith: function(otherSprite) {
+
   }
 }

@@ -41,7 +41,7 @@ Plane.prototype = {
   },
 
   collisionWith: function(otherSprite) {
-    if (otherSprite instanceof(Plane)) {
+    if (otherSprite instanceof(Ovni)) {
       this.animation.off();
       alert('GAME OVER!');
     }
