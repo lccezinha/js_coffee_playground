@@ -56,6 +56,7 @@ Plane.prototype = {
     if (otherSprite instanceof(Ovni)) {
       this.animation.newSpriteToDestroy(this);
       this.colider.newSpriteToDestroy(this);
+      console.log('Errou');
       this.animation.off();
     }
   }

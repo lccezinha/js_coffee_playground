@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cap 08 - Game</title>
+  <script type="text/javascript" src="animation.js"></script>
+  <script type="text/javascript" src="keyboard.js"></script>
+  <script type="text/javascript" src="plane.js"></script>
+  <script type="text/javascript" src="shot.js"></script>
+  <script type="text/javascript" src="colider.js"></script>
+  <script type="text/javascript" src="ovni.js"></script>
+  <script type="text/javascript" src="background.js"></script>
+</head>
+<body>
+  <canvas id="canvas_game" width="500" height="500"></canvas>
+  <script type="text/javascript">
+  var canvas = document.getElementById('canvas_game');
+  var context = canvas.getContext('2d');
+
+  var images, animation, keyboard, colider, plane, enemyBuilder;
+  var totalImages = 0;
+  var loadedImages = 0;
+
+  loadImages();
+
+  function loadImages() {
+    images = {
+      space: 'fundo-espaco.png',
+      stars: 'fundo-estrelas.png',
+      clouds: 'fundo-nuvens.png',
+      plane: 'nave.png',
+      ovni: 'ovni.png'
+    };
+
+    for (i in images) {
+      var image = new Image();
+      image.src = '../assets/' + images[i];
+      image.onload = loadingImage;
+      totalImages++;
+      images[i] = image;
+    }
+  }
+
+  function loadingImage() {
+    loadedImages++;
+    if (totalImages == loadedImages) loadObjects();
+  }
+
+  function loadObjects() {
+    animation = new Animation(context);
+    keyboard = new Keyboard(document);
+    colider = new Collision();
+    space = new Background(context, images.space);
+    stars = new Background(context, images.stars);
+    clouds = new Background(context, images.clouds);
+    plane = new Plane(context, keyboard, images.plane);
+
+    animation.newSprite(space);
+    animation.newSprite(stars);
+    animation.newSprite(clouds);
+    animation.newSprite(plane);
+
+    colider.newSprite(plane);
+    animation.newProcessor(colider);
+
+    loadConfigs();
+  }
+
+  function loadConfigs() {
+    space.speed = 3;
+    clouds.speed = 4;
+    stars.speed = 1;
+
+    plane.x = canvas.width / 2 - images.plane.width / 2;
+    plane.y = canvas.height - images.plane.height;
+    plane.speed = 5;
+
+    keyboard.shot(SPACE, function() {
+      plane.shot();
+    });
+
+    animation.start();
+    buildEnemies();
+  }
+
+  function buildEnemies() {
+    enemyBuilder = {
+      lastEnemy: new Date().getTime(),
+
+      process: function() {
+        var now = new Date.getTime();
+        var timeElapsed = now - lastEnemy;
+
+        if (timeElapsed > 1000) {
+          newEnemy();
+          this.lastEnemy = now;
+        }
+      }
+    };
+
+    animation.newProcessor(enemyBuilder);
+  }
+
+  function newEnemy() {
+    var imgOvni = images.ovni;
+    var ovni = new Ovni(context, ovniImage);
+
+    ovni.speed = Math.floor(3 + Math.random() * (5 - 2 + 1));
+
+    ovni.x = Math.floor(Math.random() * (canvas.width - ovniImage.width + 1));
+    ovni.y = -ovniImage.height;
+
+    animation.newSprite(ovni);
+    colider.newSprite(ovni);
+  }
+  </script>
+</body>
+</html>
