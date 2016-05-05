@@ -5,6 +5,8 @@ function Animation(context) {
    this.processors = [];
    this.spritesToDestroy = [];
    this.processorsToDestroy = [];
+   this.lastCicle = 0;
+   this.timeElapsed = 0;
 }
 Animation.prototype = {
   newSprite: function(sprite) {
@@ -24,6 +26,10 @@ Animation.prototype = {
   nextFrame: function() {
     if ( ! this.online ) return;
 
+    var now = new Date().getTime();
+    if (this.lastCicle == 0) this.lastCicle = now;
+    this.timeElapsed = now - this.lastCicle;
+
     for (var i in this.sprites)
        this.sprites[i].update();
 
@@ -34,6 +40,8 @@ Animation.prototype = {
        this.processors[i].process();
 
     this.destroySprites();
+
+    this.lastCicle = now;
 
     var animation = this;
     requestAnimationFrame(function() {

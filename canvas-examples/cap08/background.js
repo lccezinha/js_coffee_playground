@@ -7,6 +7,8 @@ function Background(context, image) {
 
 Background.prototype = {
   update: function() {
+    this.positionJoin = this.speed * this.animation.timeElapsed / 1000;
+
     var image = this.image;
 
     var posititonY = this.imageCopy - image.height;

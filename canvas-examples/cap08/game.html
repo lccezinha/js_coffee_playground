@@ -9,6 +9,7 @@
   <script type="text/javascript" src="colider.js"></script>
   <script type="text/javascript" src="ovni.js"></script>
   <script type="text/javascript" src="background.js"></script>
+  <script type="text/javascript" src="spritesheet.js"></script>
 </head>
 <body>
   <canvas id="canvas_game" width="500" height="500"></canvas>
@@ -66,9 +67,9 @@
   }
 
   function loadConfigs() {
-    space.speed = 3;
-    clouds.speed = 4;
-    stars.speed = 1;
+    space.speed = 1;
+    stars.speed = 2;
+    clouds.speed = 3;
 
     plane.x = canvas.width / 2 - images.plane.width / 2;
     plane.y = canvas.height - images.plane.height;
@@ -87,8 +88,8 @@
       lastEnemy: new Date().getTime(),
 
       process: function() {
-        var now = new Date.getTime();
-        var timeElapsed = now - lastEnemy;
+        var now = new Date().getTime();
+        var timeElapsed = now - this.lastEnemy;
 
         if (timeElapsed > 1000) {
           newEnemy();
@@ -102,12 +103,12 @@
 
   function newEnemy() {
     var imgOvni = images.ovni;
-    var ovni = new Ovni(context, ovniImage);
+    var ovni = new Ovni(context, imgOvni);
 
     ovni.speed = Math.floor(3 + Math.random() * (5 - 2 + 1));
 
-    ovni.x = Math.floor(Math.random() * (canvas.width - ovniImage.width + 1));
-    ovni.y = -ovniImage.height;
+    ovni.x = Math.floor(Math.random() * (canvas.width - imgOvni.width + 1));
+    ovni.y = -imgOvni.height;
 
     animation.newSprite(ovni);
     colider.newSprite(ovni);
