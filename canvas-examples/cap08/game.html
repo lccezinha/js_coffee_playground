@@ -28,7 +28,7 @@
       space: 'fundo-espaco.png',
       stars: 'fundo-estrelas.png',
       clouds: 'fundo-nuvens.png',
-      plane: 'nave.png',
+      plane: 'nave-spritesheet.png',
       ovni: 'ovni.png'
     };
 
@@ -71,8 +71,8 @@
     stars.speed = 2;
     clouds.speed = 3;
 
-    plane.x = canvas.width / 2 - images.plane.width / 2;
-    plane.y = canvas.height - images.plane.height;
+    plane.x = canvas.width / 2 - 18;
+    plane.y = canvas.height - 48;
     plane.speed = 5;
 
     keyboard.shot(SPACE, function() {

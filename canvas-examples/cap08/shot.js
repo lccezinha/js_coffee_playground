@@ -3,11 +3,11 @@ function Shot(context, plane) {
   this.plane = plane;
 
   this.width = 3;
-  this.height = 15;
-  this.x = plane.x + plane.image.width / 2 - this.width / 2;
+  this.height = 10;
+  this.x = plane.x + 18;
   this.y = plane.y - this.height;
-  this.color = 'red';
-  this.speed = 10;
+  this.color = 'yellow';
+  this.speed = 5;
 }
 
 Shot.prototype = {

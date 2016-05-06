@@ -5,6 +5,9 @@ function Plane(context, keyboard, image) {
   this.x = 0;
   this.y = 0;
   this.speed = 0;
+  this.spritesheet = new Spritesheet(context, image, 3, 2);
+  this.spritesheet.line = 0;
+  this.spritesheet.interval = 100;
 }
 
 Plane.prototype = {
@@ -12,18 +15,26 @@ Plane.prototype = {
     if (this.keyboard.press(LEFT) && this.x > 0)
       this.x -= this.speed;
 
-    if (this.keyboard.press(RIGHT) && this.x < this.context.canvas.width - this.image.width)
+    if (this.keyboard.press(RIGHT) && this.x < this.context.canvas.width - 36)
       this.x += this.speed;
 
     if (this.keyboard.press(UP) && this.y > 0)
       this.y -= this.speed;
 
-    if (this.keyboard.press(DOWN) && this.y < this.context.canvas.height - this.image.height)
+    if (this.keyboard.press(DOWN) && this.y < this.context.canvas.height - 48)
       this.y += this.speed;
   },
 
   draw: function() {
-    this.context.drawImage(this.image, this.x, this.y, this.image.width, this.image.height);
+    if (this.keyboard.press(LEFT))
+      this.spritesheet.line = 1;
+    else if (this.keyboard.press(RIGHT))
+      this.spritesheet.line = 2;
+    else
+      this.spritesheet.line = 0;
+
+    this.spritesheet.draw(this.x, this.y);
+    this.spritesheet.nextFrame();
   },
 
   shot: function() {
