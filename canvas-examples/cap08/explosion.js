@@ -7,8 +7,10 @@ function Explosion(context, image, x, y) {
   this.y = y;
 
   var explosion = this;
+  this.endExplosion = null;
   this.spritesheet.endCycle = function() {
     explosion.animation.newSpriteToDestroy(explosion);
+    if (explosion.endExplosion) explosion.endExplosion();
   }
 }
 

@@ -78,7 +78,10 @@ Plane.prototype = {
       this.animation.newSprite(exp1);
       this.animation.newSprite(exp2);
 
-      // this.animation.off();
+      exp1.endExplosion = function() {
+        animation.off();
+        alert('Game Over');
+      }
     }
   }
 };
