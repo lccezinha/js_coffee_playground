@@ -1,4 +1,4 @@
-function Plane(context, keyboard, image) {
+function Plane(context, keyboard, image, imageExplosion) {
   this.context = context;
   this.keyboard = keyboard;
   this.image = image;
@@ -8,6 +8,7 @@ function Plane(context, keyboard, image) {
   this.spritesheet = new Spritesheet(context, image, 3, 2);
   this.spritesheet.line = 0;
   this.spritesheet.interval = 100;
+  this.imageExplosion = imageExplosion;
 }
 
 Plane.prototype = {
@@ -66,9 +67,18 @@ Plane.prototype = {
   collisionWith: function(otherSprite) {
     if (otherSprite instanceof(Ovni)) {
       this.animation.newSpriteToDestroy(this);
+      this.animation.newSpriteToDestroy(otherSprite);
+
       this.colider.newSpriteToDestroy(this);
-      console.log('Errou');
-      this.animation.off();
+      this.colider.newSpriteToDestroy(otherSprite);
+
+      var exp1 = new Explosion(this.context, this.imageExplosion, this.x, this.y);
+      var exp2 = new Explosion(this.context, this.imageExplosion, otherSprite.x, otherSprite.y);
+
+      this.animation.newSprite(exp1);
+      this.animation.newSprite(exp2);
+
+      // this.animation.off();
     }
   }
 };

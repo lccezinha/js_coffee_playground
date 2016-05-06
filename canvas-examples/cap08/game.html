@@ -10,6 +10,7 @@
   <script type="text/javascript" src="ovni.js"></script>
   <script type="text/javascript" src="background.js"></script>
   <script type="text/javascript" src="spritesheet.js"></script>
+  <script type="text/javascript" src="explosion.js"></script>
 </head>
 <body>
   <canvas id="canvas_game" width="500" height="500"></canvas>
@@ -29,7 +30,8 @@
       stars: 'fundo-estrelas.png',
       clouds: 'fundo-nuvens.png',
       plane: 'nave-spritesheet.png',
-      ovni: 'ovni.png'
+      ovni: 'ovni.png',
+      explosion: 'explosao.png'
     };
 
     for (i in images) {
@@ -53,7 +55,7 @@
     space = new Background(context, images.space);
     stars = new Background(context, images.stars);
     clouds = new Background(context, images.clouds);
-    plane = new Plane(context, keyboard, images.plane);
+    plane = new Plane(context, keyboard, images.plane, images.explosion);
 
     animation.newSprite(space);
     animation.newSprite(stars);
@@ -103,7 +105,8 @@
 
   function newEnemy() {
     var imgOvni = images.ovni;
-    var ovni = new Ovni(context, imgOvni);
+    var imgExplosion = images.explosion;
+    var ovni = new Ovni(context, imgOvni, imgExplosion);
 
     ovni.speed = Math.floor(3 + Math.random() * (5 - 2 + 1));
 

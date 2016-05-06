@@ -1,9 +1,10 @@
-function Ovni(context, image) {
+function Ovni(context, image, imageExplosion) {
   this.context = context;
   this.image = image;
   this.x = 0;
   this.y = 0;
   this.speed = 0;
+  this.imageExplosion = imageExplosion
 }
 
 Ovni.prototype = {
@@ -48,6 +49,9 @@ Ovni.prototype = {
       this.colider.newSpriteToDestroy(this);
       this.animation.newSpriteToDestroy(otherSprite);
       this.colider.newSpriteToDestroy(otherSprite);
+
+      var explosion = new Explosion(this.context, this.imageExplosion, this.x, this.y);
+      this.animation.newSprite(explosion);
     }
   }
 

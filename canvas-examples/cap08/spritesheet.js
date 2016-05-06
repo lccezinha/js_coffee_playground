@@ -6,6 +6,7 @@ function Spritesheet(context, image, lines, columns) {
   this.interval   = 0;
   this.line       = 0;
   this.column     = 0;
+  this.endCycle   = null;
 }
 
 Spritesheet.prototype = {
@@ -17,9 +18,12 @@ Spritesheet.prototype = {
     if (timeNow - this.lastUpdate < this.interval) return;
 
     if (this.column < this.numColumns - 1)
-      this.column++
-    else
-      this.column = 0
+      this.column++;
+    else {
+      this.column = 0;
+
+      if (this.endCycle) this.endCycle();
+    }
 
     this.lastUpdate = timeNow;
   },
