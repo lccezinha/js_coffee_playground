@@ -15,6 +15,7 @@ Animation.prototype = {
   },
 
   start: function() {
+    this.lastCicle = 0;
     this.online = true;
     this.nextFrame();
   },

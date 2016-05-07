@@ -77,8 +77,14 @@
     plane.y = canvas.height - 48;
     plane.speed = 5;
 
-    keyboard.shot(SPACE, function() {
-      plane.shot();
+    activateShot(true);
+
+    keyboard.shot(ENTER, function() {
+      debugger;
+      if (animation.online)
+        animation.off();
+      else
+        animation.start();
     });
 
     animation.start();
@@ -115,6 +121,35 @@
 
     animation.newSprite(ovni);
     colider.newSprite(ovni);
+  }
+
+  function pause() {
+    if (animation.online) {
+      animation.off();
+      activateShot(false);
+
+      context.save();
+      context.fillStyle = 'white';
+      context.strokeStyle = 'black';
+      context.font = '50px sans-serif';
+      context.fillText("Pausado", 160, 200);
+      context.strokeText("Pausado", 160, 200);
+      context.restore();
+    } else {
+      enemyBuilder.lastEnemy = new Date().getTime();
+      animation.start();
+      activateShot(true);
+    }
+  }
+
+  function activateShot(active) {
+    if (active) {
+      keyboard.shot(SPACE, function() {
+        plane.shot();
+      });
+    } else {
+      keyboard.shot(SPACE, null);
+    }
   }
   </script>
 </body>
