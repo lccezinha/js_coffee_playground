@@ -1,3 +1,8 @@
+var SHOT_EXPLOSION = new Audio();
+SHOT_EXPLOSION.src = '../snd/explosao.mp3';
+SHOT_EXPLOSION.volume = 0.4;
+SHOT_EXPLOSION.load();
+
 function Explosion(context, image, x, y) {
   this.context = context;
   this.image = image;
@@ -12,6 +17,9 @@ function Explosion(context, image, x, y) {
     explosion.animation.newSpriteToDestroy(explosion);
     if (explosion.endExplosion) explosion.endExplosion();
   }
+
+  SHOT_EXPLOSION.currentTime = 0.0;
+  SHOT_EXPLOSION.play();
 }
 
 Explosion.prototype = {

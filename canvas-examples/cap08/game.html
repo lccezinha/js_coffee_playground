@@ -21,8 +21,10 @@
   var images, animation, keyboard, colider, plane, enemyBuilder;
   var totalImages = 0;
   var loadedImages = 0;
+  var backgroundMusic;
 
   loadImages();
+  loadSound();
 
   function loadImages() {
     images = {
@@ -41,6 +43,15 @@
       totalImages++;
       images[i] = image;
     }
+  }
+
+  function loadSound() {
+    backgroundMusic = new Audio();
+    backgroundMusic.src = '../snd/musica-acao.mp3';
+    backgroundMusic.load();
+    backgroundMusic.volume = 0.8;
+    backgroundMusic.loop = true;
+    backgroundMusic.play();
   }
 
   function loadingImage() {
