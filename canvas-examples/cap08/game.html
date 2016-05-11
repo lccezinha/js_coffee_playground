@@ -84,8 +84,7 @@
     stars.speed = 2;
     clouds.speed = 3;
 
-    plane.x = canvas.width / 2 - 18;
-    plane.y = canvas.height - 48;
+    plane.positionate();
     plane.speed = 5;
 
     activateShot(true);
@@ -100,6 +99,11 @@
 
     animation.start();
     buildEnemies();
+
+    plane.lifesOver = function() {
+      animation.off();
+      alert('Game Over!');
+    }
   }
 
   function buildEnemies() {

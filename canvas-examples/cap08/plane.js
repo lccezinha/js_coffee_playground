@@ -9,6 +9,8 @@ function Plane(context, keyboard, image, imageExplosion) {
   this.spritesheet.line = 0;
   this.spritesheet.interval = 100;
   this.imageExplosion = imageExplosion;
+  this.extraLifes = 3;
+  this.lifesOver = null;
 }
 
 Plane.prototype = {
@@ -42,6 +44,12 @@ Plane.prototype = {
     var shot = new Shot(this.context, this);
     this.animation.newSprite(shot);
     this.colider.newSprite(shot);
+  },
+
+  positionate: function() {
+    var canvas = this.context.canvas;
+    this.x = canvas.width / 2 -18;
+    this.y = canvas.height - 48;
   },
 
   rectsCollision: function() {
@@ -78,9 +86,19 @@ Plane.prototype = {
       this.animation.newSprite(exp1);
       this.animation.newSprite(exp2);
 
+      var plane = this;
       exp1.endExplosion = function() {
-        animation.off();
-        alert('Game Over');
+        plane.extraLifes--;
+
+        if (plane.extraLifes < 0 ) {
+          console.log('if < 0 ')
+          if (plane.lifesOver) plane.lifesOver();
+        } else {
+          console.log('if > 0');
+          plane.colider.newSprite(plane);
+          plane.animation.newSprite(plane);
+          plane.positionate();
+        }
       }
     }
   }
