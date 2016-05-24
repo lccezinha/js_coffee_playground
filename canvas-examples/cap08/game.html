@@ -106,7 +106,13 @@
     plane.lifesOver = function() {
       animation.off();
       alert('Game Over!');
-    }
+    };
+
+    colider.whenCollision = function(o1, o2) {
+      if ((o1 instanceof Shot && o2 instanceof Ovni) || (o1 instanceof Ovni && o2 instanceof Shot)) {
+        panel.score += 10;
+      }
+    };
   }
 
   function buildEnemies() {

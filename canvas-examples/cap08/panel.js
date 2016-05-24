@@ -4,6 +4,7 @@ function Panel(context, plane) {
   this.spritesheet = new Spritesheet(context, plane.image, 3, 2);
   this.spritesheet.line = 0;
   this.spritesheet.column = 0;
+  this.score = 0;
 }
 
 Panel.prototype = {
@@ -22,5 +23,12 @@ Panel.prototype = {
     }
 
     this.context.scale(2, 2);
+
+    var ctx = this.context;
+    ctx.save();
+    ctx.fillStyle = 'white';
+    ctx.font = '18px sans-serif';
+    ctx.fillText(this.score, 100, 28);
+    ctx.restore();
   }
 }
