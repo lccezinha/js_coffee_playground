@@ -11,6 +11,7 @@
   <script type="text/javascript" src="background.js"></script>
   <script type="text/javascript" src="spritesheet.js"></script>
   <script type="text/javascript" src="explosion.js"></script>
+  <script type="text/javascript" src="panel.js"></script>
 </head>
 <body>
   <canvas id="canvas_game" width="500" height="500"></canvas>
@@ -67,10 +68,12 @@
     stars = new Background(context, images.stars);
     clouds = new Background(context, images.clouds);
     plane = new Plane(context, keyboard, images.plane, images.explosion);
+    panel = new Panel(context, plane);
 
     animation.newSprite(space);
     animation.newSprite(stars);
     animation.newSprite(clouds);
+    animation.newSprite(panel);
     animation.newSprite(plane);
 
     colider.newSprite(plane);

@@ -91,10 +91,8 @@ Plane.prototype = {
         plane.extraLifes--;
 
         if (plane.extraLifes < 0 ) {
-          console.log('if < 0 ')
           if (plane.lifesOver) plane.lifesOver();
         } else {
-          console.log('if > 0');
           plane.colider.newSprite(plane);
           plane.animation.newSprite(plane);
           plane.positionate();
