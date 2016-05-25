@@ -60,7 +60,28 @@
     if (totalImages == loadedImages) loadObjects();
   }
 
+  function buildEnemies() {
+    enemyBuilder = {
+      lastEnemy: new Date().getTime(),
+
+      process: function() {
+        var now = new Date().getTime();
+        var timeElapsed = now - this.lastEnemy;
+
+        if (timeElapsed > 1000) {
+          newEnemy();
+          this.lastEnemy = now;
+        }
+      }
+    };
+
+    animation.newProcessor(enemyBuilder);
+  }
+
   function loadObjects() {
+    // enemyBuilder;
+    // enemyBuilder.lastEnemy = new Date().getTime();
+
     animation = new Animation(context);
     keyboard = new Keyboard(document);
     colider = new Collision();
@@ -105,7 +126,7 @@
 
     plane.lifesOver = function() {
       animation.off();
-      alert('Game Over!');
+      gameOver();
     };
 
     colider.whenCollision = function(o1, o2) {
@@ -113,24 +134,6 @@
         panel.score += 10;
       }
     };
-  }
-
-  function buildEnemies() {
-    enemyBuilder = {
-      lastEnemy: new Date().getTime(),
-
-      process: function() {
-        var now = new Date().getTime();
-        var timeElapsed = now - this.lastEnemy;
-
-        if (timeElapsed > 1000) {
-          newEnemy();
-          this.lastEnemy = now;
-        }
-      }
-    };
-
-    animation.newProcessor(enemyBuilder);
   }
 
   function newEnemy() {
@@ -173,6 +176,38 @@
       });
     } else {
       keyboard.shot(SPACE, null);
+    }
+  }
+
+  function gameOver() {
+    activateShot(false);
+    keyboard.shot(ENTER, null);
+
+    backgroundMusic.stop();
+    backgroundMusic.currentTime = 0.0;
+
+    context.drawImage(images.space, 0, 0, canvas.width, canvas.height);
+
+    context.save();
+    context.fillStyle = 'white';
+    context.strokeStyle = 'black';
+    context.font = '70px sans-serif';
+    context.fillText('GAME OVER', 40, 200);
+    context.strokeText('GAME OVER', 40, 200);
+    context.restore();
+
+    plane.extraLifes = 3;
+    plane.positionate();
+    animation.newSprite(plane);
+    colider.newSprite(plane);
+
+    removeEnimies();
+  }
+
+  function removeEnimies() {
+    for (var i in animation.sprites) {
+      if (animation.sprites[i] instanceof Ovni)
+        animation.newSpriteToDestroy(animation.sprites[i]);
     }
   }
   </script>
