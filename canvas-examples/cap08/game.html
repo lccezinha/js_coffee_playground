@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cap 08 - Game</title>
+  <script type="text/javascript" src="animation.js"></script>
+  <script type="text/javascript" src="keyboard.js"></script>
+  <script type="text/javascript" src="plane.js"></script>
+  <script type="text/javascript" src="shot.js"></script>
+  <script type="text/javascript" src="colider.js"></script>
+  <script type="text/javascript" src="ovni.js"></script>
+  <script type="text/javascript" src="background.js"></script>
+  <script type="text/javascript" src="spritesheet.js"></script>
+  <script type="text/javascript" src="explosion.js"></script>
+  <script type="text/javascript" src="panel.js"></script>
+</head>
+<body>
+  <canvas id="canvas_game" width="500" height="500"></canvas>
+  <script type="text/javascript">
+  var canvas = document.getElementById('canvas_game');
+  var context = canvas.getContext('2d');
+
+  var images, animation, keyboard, colider, plane, enemyBuilder;
+  var totalImages = 0;
+  var loadedImages = 0;
+  var backgroundMusic;
+
+  loadImages();
+  loadSound();
+
+  function loadImages() {
+    images = {
+      space: 'fundo-espaco.png',
+      stars: 'fundo-estrelas.png',
+      clouds: 'fundo-nuvens.png',
+      plane: 'nave-spritesheet.png',
+      ovni: 'ovni.png',
+      explosion: 'explosao.png'
+    };
+
+    for (i in images) {
+      var image = new Image();
+      image.src = '../assets/' + images[i];
+      image.onload = loadingImage;
+      totalImages++;
+      images[i] = image;
+    }
+  }
+
+  function loadSound() {
+    backgroundMusic = new Audio();
+    backgroundMusic.src = '../snd/musica-acao.mp3';
+    backgroundMusic.load();
+    backgroundMusic.volume = 0.8;
+    backgroundMusic.loop = true;
+    backgroundMusic.play();
+  }
+
+  function loadingImage() {
+    loadedImages++;
+    if (totalImages == loadedImages) loadObjects();
+  }
+
+  function buildEnemies() {
+    enemyBuilder = {
+      lastEnemy: new Date().getTime(),
+
+      process: function() {
+        var now = new Date().getTime();
+        var timeElapsed = now - this.lastEnemy;
+
+        if (timeElapsed > 1000) {
+          newEnemy();
+          this.lastEnemy = now;
+        }
+      }
+    };
+
+    animation.newProcessor(enemyBuilder);
+  }
+
+  function loadObjects() {
+    // enemyBuilder;
+    // enemyBuilder.lastEnemy = new Date().getTime();
+
+    animation = new Animation(context);
+    keyboard = new Keyboard(document);
+    colider = new Collision();
+    space = new Background(context, images.space);
+    stars = new Background(context, images.stars);
+    clouds = new Background(context, images.clouds);
+    plane = new Plane(context, keyboard, images.plane, images.explosion);
+    panel = new Panel(context, plane);
+
+    animation.newSprite(space);
+    animation.newSprite(stars);
+    animation.newSprite(clouds);
+    animation.newSprite(panel);
+    animation.newSprite(plane);
+
+    colider.newSprite(plane);
+    animation.newProcessor(colider);
+
+    loadConfigs();
+  }
+
+  function loadConfigs() {
+    space.speed = 1;
+    stars.speed = 2;
+    clouds.speed = 3;
+
+    plane.positionate();
+    plane.speed = 5;
+
+    activateShot(true);
+
+    keyboard.shot(ENTER, function() {
+      debugger;
+      if (animation.online)
+        animation.off();
+      else
+        animation.start();
+    });
+
+    animation.start();
+    buildEnemies();
+
+    plane.lifesOver = function() {
+      animation.off();
+      gameOver();
+    };
+
+    colider.whenCollision = function(o1, o2) {
+      if ((o1 instanceof Shot && o2 instanceof Ovni) || (o1 instanceof Ovni && o2 instanceof Shot)) {
+        panel.score += 10;
+      }
+    };
+  }
+
+  function newEnemy() {
+    var imgOvni = images.ovni;
+    var imgExplosion = images.explosion;
+    var ovni = new Ovni(context, imgOvni, imgExplosion);
+
+    ovni.speed = Math.floor(3 + Math.random() * (5 - 2 + 1));
+
+    ovni.x = Math.floor(Math.random() * (canvas.width - imgOvni.width + 1));
+    ovni.y = -imgOvni.height;
+
+    animation.newSprite(ovni);
+    colider.newSprite(ovni);
+  }
+
+  function pause() {
+    if (animation.online) {
+      animation.off();
+      activateShot(false);
+
+      context.save();
+      context.fillStyle = 'white';
+      context.strokeStyle = 'black';
+      context.font = '50px sans-serif';
+      context.fillText("Pausado", 160, 200);
+      context.strokeText("Pausado", 160, 200);
+      context.restore();
+    } else {
+      enemyBuilder.lastEnemy = new Date().getTime();
+      animation.start();
+      activateShot(true);
+    }
+  }
+
+  function activateShot(active) {
+    if (active) {
+      keyboard.shot(SPACE, function() {
+        plane.shot();
+      });
+    } else {
+      keyboard.shot(SPACE, null);
+    }
+  }
+
+  function gameOver() {
+    activateShot(false);
+    keyboard.shot(ENTER, null);
+
+    backgroundMusic.stop();
+    backgroundMusic.currentTime = 0.0;
+
+    context.drawImage(images.space, 0, 0, canvas.width, canvas.height);
+
+    context.save();
+    context.fillStyle = 'white';
+    context.strokeStyle = 'black';
+    context.font = '70px sans-serif';
+    context.fillText('GAME OVER', 40, 200);
+    context.strokeText('GAME OVER', 40, 200);
+    context.restore();
+
+    plane.extraLifes = 3;
+    plane.positionate();
+    animation.newSprite(plane);
+    colider.newSprite(plane);
+
+    removeEnimies();
+  }
+
+  function removeEnimies() {
+    for (var i in animation.sprites) {
+      if (animation.sprites[i] instanceof Ovni)
+        animation.newSpriteToDestroy(animation.sprites[i]);
+    }
+  }
+  </script>
+</body>
+</html>
