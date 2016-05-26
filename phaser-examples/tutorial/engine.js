@@ -36,8 +36,8 @@ function create() {
 
   game.physics.arcade.enable(player);
 
-  player.body.bounce.y = 0.2;
-  player.body.gravity.y = 300;
+  player.body.bounce.y  = 0.2;
+  player.body.gravity.y = 600;
   player.body.colliderWithBounds = true;
 
   player.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -45,5 +45,5 @@ function create() {
 }
 
 function update() {
-
+  game.physics.arcade.collide(player, platforms);
 }
