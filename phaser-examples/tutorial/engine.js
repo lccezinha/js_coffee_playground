@@ -22,7 +22,7 @@ function create() {
 
   platforms.enableBody = true;
 
-  var ground = platforms.create(0, game.world.height - 80, 'ground');
+  var ground = platforms.create(0, game.world.height - 64, 'ground');
   ground.scale.setTo(2, 2);
   ground.body.immovable = true;
 
@@ -31,6 +31,17 @@ function create() {
 
   ledge = platforms.create(-100, 200, 'ground');
   ledge.body.immovable = true;
+
+  player = game.add.sprite(32, game.world.height - 150, 'dude');
+
+  game.physics.arcade.enable(player);
+
+  player.body.bounce.y = 0.2;
+  player.body.gravity.y = 300;
+  player.body.colliderWithBounds = true;
+
+  player.animations.add('left', [0, 1, 2, 3], 10, true);
+  player.animations.add('left', [5, 6, 7, 8], 10, true);
 }
 
 function update() {
