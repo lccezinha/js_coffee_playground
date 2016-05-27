@@ -5,6 +5,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, "",
 var platforms
 var score = 0;
 var scoreText;
+var spaceKey
+var speed
 
 function preload() {
   game.load.image('sky', 'assets/sky.png');
@@ -57,6 +59,7 @@ function create() {
 
   scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
   cursors = game.input.keyboard.createCursorKeys();
+  this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
 function update() {
@@ -67,10 +70,22 @@ function update() {
   player.body.velocity.x = 0;
 
   if (cursors.left.isDown) {
-    player.body.velocity.x = - 150;
+    if (this.spaceKey.isDown) {
+      speed = -300
+    } else {
+      speed = -150
+    }
+
+    player.body.velocity.x = speed;
     player.animations.play('left');
   } else if (cursors.right.isDown) {
-    player.body.velocity.x = 150;
+    if (this.spaceKey.isDown) {
+      speed = 300
+    } else {
+      speed = 150
+    }
+
+    player.body.velocity.x = speed;
     player.animations.play('right');
   } else {
     player.animations.stop();
