@@ -3,6 +3,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, "",
 );
 
 var platforms
+var score = 0;
+var scoreText;
 
 function preload() {
   game.load.image('sky', 'assets/sky.png');
@@ -42,11 +44,25 @@ function create() {
 
   player.animations.add('left', [0, 1, 2, 3], 10, true);
   player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+  stars = game.add.group();
+
+  stars.enableBody = true;
+
+  for (var i = 0; i < 12; i++) {
+    var star = stars.create(i * 70, 0, 'star');
+    star.body.gravity.y = 300;
+    star.body.bounce.y = 0.4 + Math.random() * 0.2;
+  }
+
+  scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+  cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
   game.physics.arcade.collide(player, platforms);
-  cursors = game.input.keyboard.createCursorKeys();
+  game.physics.arcade.collide(stars, platforms);
+  game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
   player.body.velocity.x = 0;
 
@@ -64,4 +80,11 @@ function update() {
   if (cursors.up.isDown && player.body.touching.down) {
     player.body.velocity.y = -450;
   }
+}
+
+function collectStar(player, star) {
+  star.kill();
+
+  score += 1;
+  scoreText.text = 'score: ' + score;
 }
