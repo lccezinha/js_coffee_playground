@@ -1,5 +1,6 @@
 var game = new Phaser.Game(400, 450);
-var bird, pipes, timer;
+var bird, pipes, timer, labelScore;
+var score = 0;
 
 var mainState = {
   preload: function() {
@@ -11,10 +12,8 @@ var mainState = {
     game.stage.backgroundColor = '#71c5cf';
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
     bird = game.add.sprite(100, 245, 'bird');
     pipes = game.add.group();
-
 
     game.physics.arcade.enable(bird);
 
@@ -24,16 +23,21 @@ var mainState = {
     spaceKey.onDown.add(jump, this);
 
     timer = game.time.events.loop(1500, createRowsOfPipe, this);
+
+    var labelOptions = { font: "30px Arial", fill: "#ffffff" };
+    labelScore = game.add.text(20, 20, 0, labelOptions);
   },
 
   update: function() {
     if (bird.y < 0 || bird.y > 490)
       restartGame();
+
+    game.physics.arcade.overlap(bird, pipes, restartGame, null, this);
   }
 };
 
 function jump() {
-  bird.body.gravity.y = -350;
+  bird.body.gravity.y = -400;
 };
 
 function restartGame() {
@@ -47,6 +51,8 @@ function createPipe(x, y) {
   pipe.body.velocity.x = -200;
   pipe.checkWorldBounds = true;
   pipe.outOfBoundsKill = true;
+
+  incrementeScore();
 };
 
 function createRowsOfPipe() {
@@ -56,6 +62,11 @@ function createRowsOfPipe() {
     if (i != hole && i != hole + 1)
       createPipe(400, i * 60 + 10);
   };
+};
+
+function incrementeScore() {
+  score += 1;
+  labelScore.text = score;
 };
 
 game.state.add('main', mainState);
