@@ -1,5 +1,5 @@
 var game = new Phaser.Game(400, 450);
-var bird, pipes, timer, labelScore;
+var bird, pipes, timer, labelScore, spaceKey
 var score = 0;
 
 var mainState = {
@@ -13,14 +13,14 @@ var mainState = {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     bird = game.add.sprite(100, 245, 'bird');
+    bird.anchor.setTo(-0.2, 0.5);
     pipes = game.add.group();
 
     game.physics.arcade.enable(bird);
 
     bird.body.gravity.y = 1000;
 
-    var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    spaceKey.onDown.add(jump, this);
+    spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     timer = game.time.events.loop(1500, createRowsOfPipe, this);
 
@@ -29,8 +29,14 @@ var mainState = {
   },
 
   update: function() {
+    if (spaceKey.isDown)
+      jump();
+
     if (bird.y < 0 || bird.y > 490)
       restartGame();
+
+    if (bird.angle < 20)
+      bird.angle += 1;
 
     game.physics.arcade.overlap(bird, pipes, restartGame, null, this);
   }
@@ -38,6 +44,10 @@ var mainState = {
 
 function jump() {
   bird.body.gravity.y = -400;
+
+  var animation = game.add.tween(bird);
+  animation.to({ angle: -20 }, 100);
+  animation.start();
 };
 
 function restartGame() {
