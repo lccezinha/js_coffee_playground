@@ -1,16 +1,19 @@
 var game = new Phaser.Game(400, 450);
-var bird, pipes, timer, labelScore, spaceKey
+var bird, pipes, timer, labelScore, spaceKey, audioJump;
 var score = 0;
 
 var mainState = {
   preload: function() {
     game.load.image('bird', 'assets/bird.png');
     game.load.image('pipe', 'assets/pipe.png');
+    game.load.audio('jump', 'assets/jump.wav');
   },
 
   create: function() {
     game.stage.backgroundColor = '#71c5cf';
     game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    audioJump = game.add.audio('jump');
 
     bird = game.add.sprite(100, 245, 'bird');
     bird.anchor.setTo(-0.2, 0.5);
@@ -56,6 +59,7 @@ function jump() {
   if (bird.alive == false) return;
 
   bird.body.velocity.y = -400;
+  audioJump.play();
 
   var animation = game.add.tween(bird);
   animation.to({ angle: -20 }, 100);
