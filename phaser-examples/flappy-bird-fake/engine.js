@@ -21,6 +21,7 @@ var mainState = {
     bird.body.gravity.y = 1000;
 
     spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceKey.onDown.add(jump, this);
 
     timer = game.time.events.loop(1500, createRowsOfPipe, this);
 
@@ -29,21 +30,32 @@ var mainState = {
   },
 
   update: function() {
-    if (spaceKey.isDown)
-      jump();
-
     if (bird.y < 0 || bird.y > 490)
       restartGame();
 
     if (bird.angle < 20)
       bird.angle += 1;
 
-    game.physics.arcade.overlap(bird, pipes, restartGame, null, this);
+    game.physics.arcade.overlap(bird, pipes, hitPipe, null, this);
   }
 };
 
+function hitPipe() {
+  if (bird.alive == false) return;
+
+  bird.alive = false;
+
+  game.time.events.remove(timer);
+
+  pipes.forEach(function(p) {
+    p.body.velocity.x = 0
+  }, this);
+}
+
 function jump() {
-  bird.body.gravity.y = -400;
+  if (bird.alive == false) return;
+
+  bird.body.velocity.y = -400;
 
   var animation = game.add.tween(bird);
   animation.to({ angle: -20 }, 100);
@@ -62,19 +74,19 @@ function createPipe(x, y) {
   pipe.checkWorldBounds = true;
   pipe.outOfBoundsKill = true;
 
-  incrementeScore();
+  incrementScore();
 };
 
 function createRowsOfPipe() {
   var hole = Math.floor(Math.random() * 5) + 1;
-  console.log('hole', hole)
+
   for (var i = 0; i < 8; i++) {
     if (i != hole && i != hole + 1)
       createPipe(400, i * 60 + 10);
   };
 };
 
-function incrementeScore() {
+function incrementScore() {
   score += 1;
   labelScore.text = score;
 };
