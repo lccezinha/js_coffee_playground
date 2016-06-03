@@ -10,6 +10,7 @@ var mainState = {
   },
 
   create: function() {
+    makeMobileFriendly();
     game.stage.backgroundColor = '#71c5cf';
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -25,6 +26,7 @@ var mainState = {
 
     spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceKey.onDown.add(jump, this);
+    game.input.onDown.add(jump, this);
 
     timer = game.time.events.loop(1500, createRowsOfPipe, this);
 
@@ -93,6 +95,16 @@ function createRowsOfPipe() {
 function incrementScore() {
   score += 1;
   labelScore.text = score;
+};
+
+function makeMobileFriendly() {
+  if (game.device.desktop == false) {
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.setMinMax(game.width / 2, game.height / 2, game.width, game.height);
+
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+  }
 };
 
 game.state.add('main', mainState);
