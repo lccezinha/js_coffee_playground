@@ -10,6 +10,7 @@ var mainState = {
   },
 
   create: function() {
+    score = 0;
     makeMobileFriendly();
     game.stage.backgroundColor = '#71c5cf';
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -79,8 +80,6 @@ function createPipe(x, y) {
   pipe.body.velocity.x = -200;
   pipe.checkWorldBounds = true;
   pipe.outOfBoundsKill = true;
-
-  incrementScore();
 };
 
 function createRowsOfPipe() {
@@ -90,6 +89,8 @@ function createRowsOfPipe() {
     if (i != hole && i != hole + 1)
       createPipe(400, i * 60 + 10);
   };
+
+  incrementScore();
 };
 
 function incrementScore() {
