@@ -2,6 +2,7 @@ var game = new Phaser.Game(400, 500);
 
 var cursors, man, ball, scoreLabel;
 var score = 0;
+
 var mainState = {
   preload: function() {
     game.load.image('sky', 'assets/sky.png');
@@ -16,8 +17,11 @@ var mainState = {
     // Criando sprites
     game.add.sprite(0, 0, 'sky');
     game.add.sprite(0, game.world.height - 30, 'ground');
+
     man = game.add.sprite((game.world.width / 2) - 40, game.world.height - 65, 'man');
     man.scale.setTo(0.7);
+    // man.body.collideWorldBounds = true;
+
     ball = game.add.sprite((game.world.width / 2) - 40, 0, 'ball');
 
     // Habilitando física
@@ -26,6 +30,8 @@ var mainState = {
     game.physics.arcade.enable(ball);
 
     ball.body.gravity.y = 500;
+    // ball.body.collideWorldBounds = true;
+    // ball.body.bounce.setTo(0.9, 0.9);
 
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -37,10 +43,11 @@ var mainState = {
   update: function() {
     game.physics.arcade.overlap(man, ball, handleCollision, null, this);
 
-    if (ball.y > game.world.height) {
+    if (ball.y >= game.world.height) {
       restartGame();
     }
 
+    man.body.velocity.x = 0;
     if (cursors.left.isDown) {
       man.body.velocity.x = -200
     } else if (cursors.right.isDown) {
