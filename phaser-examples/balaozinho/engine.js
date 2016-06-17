@@ -1,8 +1,59 @@
 var game = new Phaser.Game(400, 500);
 
-var cursors, man, ball, scoreLabel;
+var cursors, man, ball, scoreLabel, messageLabel;
 var score = 0;
 var MAN_SPEED = 300;
+
+var finishState = {
+  preload: function() {
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+  },
+
+  create: function() {
+    game.add.sprite(0, 0, 'sky');
+    game.add.sprite(0, game.world.height - 30, 'ground');
+
+    var labelOptions = { font: "30px Arial", fill: "#ffffff" };
+    labelScore = game.add.text(20, 180, 'Press SPACEBAR to Play', labelOptions);
+
+    var scoreLabel = { font: "30px Arial", fill: "#ffffff" };
+    scoreLabel = game.add.text(170, 230, score, labelOptions);
+
+    var spaceBarKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBarKey.onDown.addOnce(startGame, this);
+
+    score = 0;
+  },
+
+  update: function() {
+
+  }
+};
+
+var menuState = {
+  preload: function() {
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+  },
+
+  create: function() {
+    game.add.sprite(0, 0, 'sky');
+    game.add.sprite(0, game.world.height - 30, 'ground');
+
+    var labelOptions = { font: "30px Arial", fill: "#ffffff" };
+    labelScore = game.add.text(20, 220, 'Press SPACEBAR to Play', labelOptions);
+
+    var spaceBarKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBarKey.onDown.addOnce(startGame, this);
+  },
+
+  update: function() {}
+};
+
+function startGame() {
+  game.state.start('main');
+};
 
 var mainState = {
   preload: function() {
@@ -44,7 +95,7 @@ var mainState = {
     game.physics.arcade.overlap(man, ball, handleCollision, null, this);
 
     if (ball.y >= game.world.height - 65) {
-      restartGame();
+      finishGame();
     };
 
     man.body.velocity.x = 0;
@@ -62,10 +113,6 @@ function handleCollision() {
   moveBall();
 };
 
-function restartGame() {
-  game.state.start('main');
-};
-
 function incrementPoints() {
   score += 1;
   labelScore.text = score;
@@ -76,5 +123,11 @@ function moveBall() {
   ball.body.velocity.y = -500;
 };
 
+function finishGame() {
+  game.state.start('finish');
+};
+
+game.state.add('menu', menuState);
+game.state.add('finish', finishState);
 game.state.add('main', mainState);
-game.state.start('main');
+game.state.start('menu');
